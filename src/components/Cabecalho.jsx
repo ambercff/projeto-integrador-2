@@ -1,10 +1,10 @@
 import { StyleSheet, View, Text } from 'react-native'
 
-export const Cabecalho = () => {
+export const Cabecalho = ({titulo, subtitulo}) => {
     return(
         <View style={styles.container}>
-            <Text style={styles.text}> Senai Roberto Mange</Text>
-            <Text style={styles.text}> 2DS </Text>
+            <Text style={styles.text}> {titulo}</Text>
+            <Text style={styles.text}> {subtitulo} </Text>
         </View>
     )
 }
