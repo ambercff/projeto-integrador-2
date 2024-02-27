@@ -1,7 +1,6 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native"
 import { useState } from "react"
 
-
 export const Botao = ({texto}) => {
 
     let [cliques, setCliques] = useState(0) //é como se fosse um get e um set, seria uma função para ler e outra para alterar (cliques - get | setCliques - set)
