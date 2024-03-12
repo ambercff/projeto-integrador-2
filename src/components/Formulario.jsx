@@ -1,21 +1,11 @@
 import { useState } from "react"
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native"
 
-export function Formulario() {
+export function Formulario({adicionar}) {
 
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
     const [telefone, setTelefone] = useState('')
-
-    function adicionarUsuario(){
-        let novoUsuario = {
-            nome: nome,
-            email: email,
-            telefone: telefone
-        }
-
-        console.log(novoUsuario)
-    }
 
     return (
         <View style={styles.container}>
@@ -48,7 +38,9 @@ export function Formulario() {
             </View>
 
             <View style={styles.container_botao}>
-                <TouchableOpacity style={styles.botao} onPress={adicionarUsuario}> 
+                <TouchableOpacity 
+                style={styles.botao} 
+                onPress={() => adicionar(nome, email, telefone)}> 
                     <Text style={styles.texto_botao}> Adicionar </Text>
                 </TouchableOpacity>
             </View>

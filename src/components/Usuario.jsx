@@ -1,6 +1,6 @@
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native"
 
-export function Usuario({nome, email, telefone}) {
+export function Usuario({nome, email, telefone, remover}) {
     return (
         <View style={styles.container}>
 
@@ -10,7 +10,10 @@ export function Usuario({nome, email, telefone}) {
                 <Text> {telefone} </Text>
             </View>
 
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity 
+            style={styles.btn}
+            onPress={remover}
+            >
                 <Text style={styles.text}> - </Text>
             </TouchableOpacity>
         </View>
