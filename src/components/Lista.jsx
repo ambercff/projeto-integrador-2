@@ -11,8 +11,8 @@ export function Lista({colecao, remover}) {
                 renderItem={({item}) => ( // 'renderItem' serve para renderizar cada atributo do objeto
                         <Usuario 
                             nome={item.nome}
-                            email={item.email}
-                            telefone={item.telefone}
+                            user={item.user}
+                            senha={item.senha}
                             remover={() => remover(item.codigo)}
                         />
                 )}

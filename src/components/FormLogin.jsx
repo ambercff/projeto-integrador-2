@@ -1,24 +1,15 @@
 import { useState } from "react"
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native"
 
-export function Formulario({adicionar}) {
+export function FormLogin({logar}) {
 
-    const [nome, setNome] = useState('')
     const [user, setUser] = useState('')
     const [senha, setSenha] = useState('')
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}> Cadastro </Text>
+            <Text style={styles.titulo}> Login </Text>
             <View>
-                <TextInput 
-                    style={styles.campo}
-                    placeholderTextColor="#000"
-                    keyboardType="default"
-                    placeholder="Nome"
-                    onChangeText={setNome}
-                    value={nome}
-                />
                 <TextInput 
                     style={styles.campo}
                     placeholderTextColor="#000"
@@ -40,10 +31,12 @@ export function Formulario({adicionar}) {
             <View style={styles.container_botao}>
                 <TouchableOpacity 
                 style={styles.botao} 
-                onPress={() => adicionar(nome, user, senha)}> 
-                    <Text style={styles.texto_botao}> Adicionar </Text>
+                onPress={() => logar(user, senha)}> 
+                    <Text style={styles.texto_botao}> Login </Text>
                 </TouchableOpacity>
             </View>
+
+            <Text style={styles.text_cadastro}> Não tem uma conta? Cadastre-se </Text>
         </View>
     )
 }
@@ -91,6 +84,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginTop: 10,
         marginBottom: 10
+    },
+
+    text_cadastro: {
+        marginTop: 20
     }
 
 })
