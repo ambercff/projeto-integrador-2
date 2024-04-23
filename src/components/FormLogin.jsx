@@ -1,10 +1,17 @@
 import { useState } from "react"
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native"
+import { useNavigation } from "@react-navigation/native"
 
-export function FormLogin({logar}) {
+export function FormLogin() {
 
     const [user, setUser] = useState('')
     const [senha, setSenha] = useState('')
+
+    const navigation = useNavigation()
+
+    function abrirInicial() {
+        navigation.navigate('inicial')
+    }
 
     return (
         <View style={styles.container}>
@@ -31,7 +38,7 @@ export function FormLogin({logar}) {
             <View style={styles.container_botao}>
                 <TouchableOpacity 
                 style={styles.botao} 
-                onPress={() => logar(user, senha)}> 
+                onPress={abrirInicial}> 
                     <Text style={styles.texto_botao}> Login </Text>
                 </TouchableOpacity>
             </View>
@@ -48,7 +55,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         marginVertical: 10,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        flex:1 
     },
 
     campo: {
