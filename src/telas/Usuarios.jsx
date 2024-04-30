@@ -1,9 +1,7 @@
 import { View, StyleSheet } from "react-native"
 import { Cabecalho } from "../components/Cabecalho"
-import { Formulario } from "../components/Formulario"
 import { Lista } from "../components/Lista"
 import { useState } from "react"
-import { FormLogin } from "../components/FormLogin"
 import 'react-native-get-random-values'
 
 

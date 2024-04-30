@@ -10,7 +10,7 @@ export function FormLogin() {
     const navigation = useNavigation()
 
     function abrirInicial() {
-        navigation.navigate('inicial')
+        navigation.navigate('rotasTab')
     }
 
     return (

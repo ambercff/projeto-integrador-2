@@ -1,5 +1,4 @@
 import { StyleSheet, StatusBar, View } from 'react-native';
-import { Login } from './src/telas/Login.jsx';
 import { RostasStack } from './src/rotas/RotasStack.jsx';
 
 

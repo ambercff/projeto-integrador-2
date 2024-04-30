@@ -5,10 +5,7 @@ import { Botao } from "../components/Botao.jsx";
 export function Inicial() {
     return(
         <View style={styles.container}>
-            <Cabecalho titulo = "Senai Roberto Mange" subtitulo= "2DS"/>
-            <Botao texto="Usuario"/>
-            <Botao texto="Sensores"/>
-            <Botao texto="Sobre"/>
+            <Cabecalho titulo = "Localizador"/>
         </View>
     );
 }
