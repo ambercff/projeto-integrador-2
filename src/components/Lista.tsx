@@ -1,7 +1,21 @@
 import { View, StyleSheet, Text, FlatList } from "react-native"
 import { Usuario } from "./Usuario"
 
-export function Lista({colecao, remover}) {
+interface UsuarioProps{
+    codigo: string;
+    nome: string;
+    email: string;
+    telefone: string;
+    usuario: string;
+    senha: string;
+}
+
+interface ListaProps {
+    colecao: UsuarioProps[];
+    remover: (codigo: string) => void;
+}
+
+export const Lista = ({colecao, remover}: ListaProps) => {
 
     return (
         <View>
@@ -11,9 +25,11 @@ export function Lista({colecao, remover}) {
                 renderItem={({item}) => ( // 'renderItem' serve para renderizar cada atributo do objeto
                         <Usuario 
                             nome={item.nome}
-                            user={item.user}
+                            email={item.email}
+                            telefone={item.telefone}
+                            usuario={item.usuario}
                             senha={item.senha}
-                            remover={() => remover(item.codigo)}
+                            excluir={() => remover(item.codigo)}
                         />
                 )}
                 ListEmptyComponent={() => (

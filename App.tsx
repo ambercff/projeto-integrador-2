@@ -1,5 +1,5 @@
 import { StyleSheet, StatusBar, View } from 'react-native';
-import { RostasStack } from './src/rotas/RotasStack.jsx';
+import { RostasStack } from './src/rotas/RotasStack';
 
 
 export default function App() {

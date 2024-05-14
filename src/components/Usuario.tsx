@@ -1,20 +1,37 @@
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native"
+import { Feather } from '@expo/vector-icons'
 
-export function Usuario({nome, user, senha, remover}) {
+interface UsuarioProps{
+    nome: string;
+    email: string;
+    telefone: string;
+    usuario: string;
+    senha: string;
+    excluir: () => void
+}
+
+export const Usuario = ({nome, email, telefone, usuario, senha, excluir}: UsuarioProps) => {
     return (
         <View style={styles.container}>
 
             <View style={styles.containerDados}>
-                <Text> {nome} </Text>
-                <Text> {user} </Text>
-                <Text> {senha} </Text>
+                <Text>Nome: {nome}</Text>
+                <Text>E-mail: {email}</Text>
+                <Text>Telefone: {telefone}</Text>
+                <Text>Usuário: {usuario}</Text>
+                <Text>Senha: {senha}</Text>
             </View>
 
             <TouchableOpacity 
             style={styles.btn}
-            onPress={remover}
+            onPress={excluir}
             >
-                <Text style={styles.text}> - </Text>
+                <Text style={styles.text}>                     
+                <Feather 
+                        name="user-minus" 
+                        size={24} 
+                        color='#dee2e6' 
+                    />   </Text>
             </TouchableOpacity>
         </View>
     )

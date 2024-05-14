@@ -1,6 +1,17 @@
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native"
+import { Feather } from '@expo/vector-icons'
 
-export function AmbienteEquipamento({descricao, statusOperacional, instrucoesSeguranca, contatoResponsavel, latitude, longitude, remover}) {
+interface AmbienteEquipamentoProps {
+    descricao: string;
+    statusOperacional: string;
+    instrucoesSeguranca: string;
+    contatoResponsavel: string;
+    latitude: string;
+    longitude: string;
+    excluir: () => void;
+}
+
+export const AmbienteEquipamento = ({ descricao, statusOperacional, instrucoesSeguranca, contatoResponsavel, latitude, longitude, remover }) => {
     return (
         <View style={styles.container}>
 
@@ -13,11 +24,16 @@ export function AmbienteEquipamento({descricao, statusOperacional, instrucoesSeg
                 <Text> {longitude} </Text>
             </View>
 
-            <TouchableOpacity 
-            style={styles.btn}
-            onPress={remover}
+            <TouchableOpacity
+                style={styles.btn}
+                onPress={remover}
             >
-                <Text style={styles.text}> - </Text>
+                <Text style={styles.text}>                     
+                <Feather
+                    name="user-minus"
+                    size={24}
+                    color='#dee2e6'
+                />     </Text>
             </TouchableOpacity>
         </View>
     )
@@ -30,7 +46,7 @@ const styles = StyleSheet.create({
     },
 
     containerDados: {
-        flex:1,
+        flex: 1,
         backgroundColor: '#e0e0e0',
         borderRadius: 5
     },

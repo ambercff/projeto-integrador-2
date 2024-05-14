@@ -2,7 +2,7 @@ import { useState } from "react"
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 
-export function FormLogin() {
+export const FormLogin = () => {
 
     const [user, setUser] = useState('')
     const [senha, setSenha] = useState('')
@@ -35,7 +35,7 @@ export function FormLogin() {
                 />
             </View>
 
-            <View style={styles.container_botao}>
+            <View>
                 <TouchableOpacity 
                 style={styles.botao} 
                 onPress={abrirInicial}> 
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         fontSize: 16,
         borderWidth: 1,
-        borderRadius: 12,
+        // borderRadius: 12,
         borderColor: "#000"
     },
 

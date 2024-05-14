@@ -3,7 +3,7 @@ import { Cabecalho } from "../components/Cabecalho"
 import 'react-native-get-random-values'
 
 
-export function Sobre() {
+export const Sobre = () => {
 
     return (
             <View style={styles.container}>

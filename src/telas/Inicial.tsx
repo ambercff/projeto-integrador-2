@@ -1,8 +1,8 @@
 import { Text, View, StyleSheet } from "react-native";
-import { Cabecalho } from "../components/Cabecalho.jsx";
-import { Botao } from "../components/Botao.jsx";
+import { Cabecalho } from "../components/Cabecalho";
+import { Botao } from "../components/Botao";
 
-export function Inicial() {
+export const Inicial = () =>{
     return(
         <View style={styles.container}>
             <Cabecalho titulo = "Localizador"/>

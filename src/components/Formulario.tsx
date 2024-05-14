@@ -1,10 +1,23 @@
 import { useState } from "react"
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native"
+import { Feather } from '@expo/vector-icons'
 
-export function Formulario({adicionar}) {
+interface FormularioProps {
+    adicionar: (
+        nome: string,
+        email: string,
+        telefone: string,
+        usuario: string,
+        senha: string
+    ) => void
+}
+
+export const Formulario = ({adicionar}: FormularioProps) => {
 
     const [nome, setNome] = useState('')
-    const [user, setUser] = useState('')
+    const [email, setEmail] = useState('')
+    const [telefone, setTelefone] = useState('')
+    const [usuario, setUsuario] = useState('')
     const [senha, setSenha] = useState('')
 
     return (
@@ -22,11 +35,27 @@ export function Formulario({adicionar}) {
                 <TextInput 
                     style={styles.campo}
                     placeholderTextColor="#000"
-                    keyboardType="default"
-                    placeholder="Usuário"
-                    onChangeText={setUser}
-                    value={user}
+                    keyboardType="email-address"
+                    placeholder="Email"
+                    onChangeText={setEmail}
+                    value={email}
                 />
+                <TextInput 
+                    style={styles.campo}
+                    placeholder='Telefone'
+                    placeholderTextColor="#000"
+                    keyboardType='phone-pad'                
+                    onChangeText={setTelefone}
+                    value={telefone}
+                />
+                <TextInput 
+                    style={styles.campo}
+                    placeholder='Usuário'
+                    placeholderTextColor="#000"
+                    keyboardType='default'                
+                    onChangeText={setUsuario}
+                    value={usuario}
+                />    
                 <TextInput 
                     style={styles.campo}
                     placeholderTextColor="#000"
@@ -37,11 +66,17 @@ export function Formulario({adicionar}) {
                 />
             </View>
 
-            <View style={styles.container_botao}>
+            <View>
                 <TouchableOpacity 
                 style={styles.botao} 
-                onPress={() => adicionar(nome, user, senha)}> 
-                    <Text style={styles.texto_botao}> Adicionar </Text>
+                onPress={() => adicionar(nome, email, telefone, usuario, senha)}> 
+                <Text>
+                    <Feather 
+                        name="user-plus" 
+                        size={24} 
+                        color='#dee2e6' 
+                    />  
+                </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -66,7 +101,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         fontSize: 16,
         borderWidth: 1,
-        borderRadius: 12,
+        // borderRadius: 12,
         borderColor: "#000"
     },
 

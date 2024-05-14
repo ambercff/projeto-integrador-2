@@ -1,7 +1,19 @@
 import { useState } from "react"
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native"
 
-export function FormularioAmbienteEquipamento({adicionar}) {
+
+interface FormularioAmbienteEquipamentoProps {
+    adicionar:(
+        descricao : string, 
+        statusOperacional: string, 
+        instrucoesSeguranca: string, 
+        contatoResponsavel: string, 
+        latitude: string, 
+        longitude: string
+    ) => void
+}
+
+export const FormularioAmbienteEquipamento = ({adicionar}: FormularioAmbienteEquipamentoProps) => {
 
     const [descricao, setDescricao] = useState('')
     const [statusOperacional, setStatusOperacional] = useState('')
@@ -64,10 +76,17 @@ export function FormularioAmbienteEquipamento({adicionar}) {
                 />
             </View>
 
-            <View style={styles.container_botao}>
+            <View>
                 <TouchableOpacity 
                 style={styles.botao} 
-                onPress={() => adicionar(descricao, statusOperacional, instrucoesSeguranca, contatoResponsavel, latitude, longitude)}> 
+                onPress={() => adicionar (
+                    descricao, 
+                    statusOperacional, 
+                    instrucoesSeguranca, 
+                    contatoResponsavel, 
+                    latitude, 
+                    longitude
+                )}> 
                     <Text style={styles.texto_botao}> Adicionar </Text>
                 </TouchableOpacity>
             </View>
@@ -93,7 +112,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         fontSize: 16,
         borderWidth: 1,
-        borderRadius: 12,
+        // borderRadius: 12,
         borderColor: "#000"
     },
 
