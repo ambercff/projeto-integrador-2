@@ -1,0 +1,15 @@
+.container {
+    background-color: var(--preto);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container p {
+    /* devido a estilização do global.css, que desfrutou de rem para definir o tamanho
+    (para padronizar em todos os navegadores)
+    para aumentar o tamanho do texto, basta duplicar o valor no mesmo formato rem */ 
+    font-size:  2rem;
+    color: var(--branco);
+    margin: 0 16px 0 16px;
+}

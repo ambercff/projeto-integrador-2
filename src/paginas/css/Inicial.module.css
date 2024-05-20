@@ -1,0 +1,34 @@
+.gridConteiner {
+    gap: 3px; 
+
+    display: grid;
+    height: 100vh; 
+    
+
+    /* quantidade de colunas e tamanho das mesmas
+    fr ou 1 fração é o resto */
+    grid-template-columns: 250px 1fr;
+    /* quantidade de linhas e tamanho das mesmas
+    fr ou 1 fração é o resto */
+    grid-template-rows: 100px 1fr;
+
+    /* no total são duas linhas e duas colunas */ 
+
+
+    /* recebe um vetor para informar o que as duas linhas e duas colunas vão conter*/
+    grid-template-areas: 
+        'cabecalho cabecalho'
+        'lateral conteudo';
+}
+
+header {
+    grid-area: cabecalho;
+}
+
+aside {
+    grid-area: lateral;
+}
+
+main {
+    grid-area: conteudo;
+}
