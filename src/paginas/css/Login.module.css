@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: var(--branco);
+    justify-content: center;
+    align-items: center;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.campo {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.botao {
+    padding: 10px;
+    border-radius: 8px;
+    background-color: var(--preto);
+    color: var(--branco);
+    border: none;
+    cursor: pointer;
+}
+
