@@ -7,6 +7,7 @@ from app_smart.api.filters import SensorFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework.views import APIView
+from rest_framework.response import Response
 from django.db.models import Q
 
 class CreateUserAPIViewSet(generics.CreateAPIView):
@@ -25,7 +26,7 @@ class SensorViewSet(viewsets.ModelViewSet):
     filterset_class = SensorFilter
     
 class SensorFilterView(APIView):
-    permission_classes = ~[permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     
     
     def post (self, request, *args, **kwargs):
@@ -37,11 +38,15 @@ class SensorFilterView(APIView):
         filters = Q()
         
         if tipo:
-            filters &=Q(tipo_icontains = tipo)
+            filters &=Q(tipo__icontains = tipo)
         if localizacao:
-            filters &= Q(localizacao_icontains = localizacao)
+            filters &= Q(localizacao__icontains = localizacao)
         if responsavel:
-            filters &= Q(responsavel_icontains = responsavel)
+            filters &= Q(responsavel__icontains = responsavel)
         if status_operacional:
-            filters &= Q(status_operacional_icontains = status_operacional)
+            filters &= Q(status_operacional__icontains = status_operacional)
+            
+        queryset = Sensor.objects.filter(filters)
+        serializer = serializers.SensorSerializer(queryset, many=True)
+        return Response(serializer.data)
             

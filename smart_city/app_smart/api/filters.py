@@ -10,3 +10,4 @@ class SensorFilter(django_filters.FilterSet):
     class Meta:
         model = Sensor
         fields = ['responsavel', 'status_operacional', 'tipo', 'localizacao']
+        
