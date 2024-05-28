@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form'
 import styles from './css/Perfil.module.css'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link } from 'react-router-dom'
 
 const schemaPerfil = z.object({
     nome: z.string().min(1, 'Informe um nome').max(25, 'Máximo de 25 caracteres'),
@@ -55,7 +56,7 @@ export function Cadastro(){
                 {errors.senha && (
                     <p> {errors.senha.message} </p>
                 )}
-                <button className={styles.botao}>Confirmar</button>
+                <Link to='/'><button className={styles.botao}>Confirmar</button></Link>
             </form>
         </div>
     )

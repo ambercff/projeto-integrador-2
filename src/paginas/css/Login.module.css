@@ -1,10 +1,23 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
     background-color: var(--branco);
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    width: 15vw;
+    height: 40vh;
+    border-radius: 20px;
+}
+
+.general_container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-image: url('../../assets/login-background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover; */
+    background-color: rgb(54, 54, 54);
 }
 
 .formulario {
@@ -12,6 +25,11 @@
     flex-direction: column;
     padding: 30px;
     border-radius: 10px;
+    gap: 20px;
+}
+
+.formulario input {
+    border: 1px solid var(--preto);
 }
 
 .campo {
@@ -29,3 +47,10 @@
     cursor: pointer;
 }
 
+.container_cadastro{
+    text-align: center;
+}
+
+h1 {
+    padding-top: 2rem;
+}
