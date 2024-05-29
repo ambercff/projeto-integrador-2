@@ -1,118 +1,87 @@
-import { useForm } from 'react-hook-form'
-import styles from './css/Perfil.module.css'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+// src/Paginas/CadastrarSensor.jsx
+import React from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import styles from './css/CadastroSensores.module.css';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-const schemaPerfil = z.object({
-    nome: z.string().min(1, 'Informe um nome').max(25, 'Máximo de 25 caracteres'),
-
-    usuario: z.string().min(5, 'Mínimo de 5 caracteres').max(10, 'Máximo de 10 caracteres'),
-
-    senha: z.string().min(8, 'Informe 8 caracteres').max(8, 'Máximo de 8 caracteres'),
-
-})
+const schemaSensor = z.object({
+    tipo: z.string().min(1, 'Tipo é obrigatório'),
+    mac_address: z.string().max(20, 'Máximo de 20 caracteres').nullable(),
+    latitude: z.string().refine(val => !isNaN(parseFloat(val)), 'Latitude inválida'),
+    longitude: z.string().refine(val => !isNaN(parseFloat(val)), 'Longitude inválida'),
+    localizacao: z.string().max(100, 'Máximo de 100 caracteres'),
+    responsavel: z.string().max(100, 'Máximo de 100 caracteres'),
+    unidade_medida: z.string().max(20, 'Máximo de 20 caracteres').nullable(),
+    status_operacional: z.boolean(),
+    observacao: z.string().nullable(),
+});
 
 export function CadastroSensores() {
-
+    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: zodResolver(schemaPerfil)
-    })
+        resolver: zodResolver(schemaSensor)
+    });
 
-    function obterDadosFormulario(data) {
-        console.log(`Tipo: ${data.tipo}`)
-        console.log(`Usuário: ${data.usuario}`)
-        console.log(`Senha: ${data.senha}`)
+    async function obterDadosFormulario(data) {
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/sensores/', data, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            });
+
+            alert('Sensor cadastrado com sucesso!');
+            navigate('/inicial'); // Redireciona para a página inicial após o cadastro
+        } catch (error) {
+            console.error('Erro no cadastro de sensor', error);
+        }
     }
 
     return (
-        <div className={styles.container}>
-            <form className={styles.formulario}
-                onSubmit={handleSubmit(obterDadosFormulario)}>
-                <p className={styles.titulo}>Cadastro Sensores</p>
-                <input
-                    {...register('tipo')} // Pegando todos os recursos da funçõo register
-                    placeholder="Tipo"
-                    className={styles.campo} />
+        <div className={styles.conteiner}>
+            <p className={styles.titulo}>Cadastro de Sensor</p>
 
-                {errors.tipo && (
-                    <p> {errors.tipo.message} </p>
-                )}
+            <form className={styles.formulario} onSubmit={handleSubmit(obterDadosFormulario)}>
+                <select {...register('tipo')} className={styles.campo}>
+                    <option value="">Selecione o tipo de sensor</option>
+                    <option value="Temperatura">Temperatura</option>
+                    <option value="Contador">Contador</option>
+                    <option value="Luminosidade">Luminosidade</option>
+                    <option value="Umidade">Umidade</option>
+                </select>
+                {errors.tipo && <p className={styles.mensagem}>{errors.tipo.message}</p>}
 
-                <input {...register('mac_address')}
-                    placeholder="Mac Address"
-                    className={styles.campo} />
+                <input {...register('mac_address')} className={styles.campo} placeholder="MAC Address" />
+                {errors.mac_address && <p className={styles.mensagem}>{errors.mac_address.message}</p>}
 
+                <input {...register('latitude')} className={styles.campo} placeholder="Latitude" />
+                {errors.latitude && <p className={styles.mensagem}>{errors.latitude.message}</p>}
 
-                {errors.mac_address && (
-                    <p> {errors.mac_address.message} </p>
-                )}
+                <input {...register('longitude')} className={styles.campo} placeholder="Longitude" />
+                {errors.longitude && <p className={styles.mensagem}>{errors.longitude.message}</p>}
 
-                <input {...register('latitude')}
-                    placeholder="Latitude"
-                    className={styles.campo} />
+                <input {...register('localizacao')} className={styles.campo} placeholder="Localização" />
+                {errors.localizacao && <p className={styles.mensagem}>{errors.localizacao.message}</p>}
 
+                <input {...register('responsavel')} className={styles.campo} placeholder="Responsável" />
+                {errors.responsavel && <p className={styles.mensagem}>{errors.responsavel.message}</p>}
 
-                {errors.latitude && (
-                    <p> {errors.latitude.message} </p>
-                )}
+                <input {...register('unidade_medida')} className={styles.campo} placeholder="Unidade de Medida" />
+                {errors.unidade_medida && <p className={styles.mensagem}>{errors.unidade_medida.message}</p>}
 
+                <label className={styles.campoCheckbox}>
+                    Status Operacional:
+                    <input {...register('status_operacional')} type="checkbox" />
+                </label>
 
-                <input {...register('longitude')}
-                    placeholder="Longitude"
-                    className={styles.campo} />
+                <textarea {...register('observacao')} className={styles.campo} placeholder="Observação"></textarea>
+                {errors.observacao && <p className={styles.mensagem}>{errors.observacao.message}</p>}
 
-
-                {errors.longitude && (
-                    <p> {errors.longitude.message} </p>
-                )}
-
-                <input {...register('localizacao')}
-                    placeholder="Localização"
-                    className={styles.campo} />
-
-
-                {errors.localizacao && (
-                    <p> {errors.localizacao.message} </p>
-                )}
-
-                <input {...register('responsavel')}
-                    placeholder="Responsável"
-                    className={styles.campo} />
-
-
-                {errors.responsavel && (
-                    <p> {errors.responsavel.message} </p>
-                )}
-
-                <input {...register('unidade_medida')}
-                    placeholder="Unidade de Medida"
-                    className={styles.campo} />
-
-
-                {errors.unidade_medida && (
-                    <p> {errors.unidade_medida.message} </p>
-                )}
-
-                <input {...register('status')}
-                    placeholder="Status Operacional"
-                    className={styles.campo} />
-
-
-                {errors.status && (
-                    <p> {errors.status.message} </p>
-                )}
-
-                <input {...register('observacao')}
-                    placeholder="Observação"
-                    className={styles.campo} />
-
-
-                {errors.observacao && (
-                    <p> {errors.observacao.message} </p>
-                )}
-                <button className={styles.botao}>Confirmar</button>
+                <button className={styles.botao}>Cadastrar</button>
             </form>
         </div>
-    )
+    );
 }
-

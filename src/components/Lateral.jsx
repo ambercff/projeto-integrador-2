@@ -30,6 +30,11 @@ export function Lateral () {
                 >
                 Cadastro Sensores  
                 </Link>
+                <Link 
+                    className={styles.botao}
+                    to='/inicial/localizacao'
+                >Mapa
+                </Link>
 
             </section>
         </aside>

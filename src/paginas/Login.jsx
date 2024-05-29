@@ -6,16 +6,11 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const schemaLogin = z.object({
-    usuario: z.string()
-        .min(5, "O minimo é de 5 caracteres")
-        .max(20, "O maximo são 20 caracteres"),
-    senha: z.string()
-        .min(8, "Informe 8 caracteres")
-        .max(20, "O maximo são 20 caracteres"),
+    usuario: z.string().min(5, 'Mínimo de 5 caracteres').max(20, 'Máximo de 10 caracteres'),
+    senha: z.string().min(8, 'Informe 8 caracteres').max(8, 'Máximo de 8 caracteres'),
 });
 
 export function Login() {
-
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(schemaLogin)
@@ -23,19 +18,19 @@ export function Login() {
 
     async function obterDadosFormulario(data) {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/token', {
+            const response = await axios.post('http://127.0.0.1:8000/api/token/', {
                 username: data.usuario,
                 password: data.senha
             });
+
             const { access, refresh } = response.data;
             localStorage.setItem('access_token', access);
             localStorage.setItem('refresh_token', refresh);
 
-            console.log("Login bem sucedido");
-            navigate('/inicial');
-        }
-        catch (error) {
-            console.log("Erro na autenticação", error);
+            console.log('Login bem-sucedido!');
+            navigate('/inicial'); // Redireciona para a página de sensores
+        } catch (error) {
+            console.error('Erro de autenticação', error);
         }
     }
 
@@ -43,7 +38,7 @@ export function Login() {
         <div className={styles.general_container}>
             <div className={styles.container}>
                 <h1>Login</h1>
-                <form className={styles.formulario} onSubmit={obterDadosFormulario}>
+                <form className={styles.formulario} onSubmit={handleSubmit(obterDadosFormulario)}>
                     <input
                         {...register('usuario')}
                         className={styles.campo}
@@ -61,7 +56,7 @@ export function Login() {
                     {errors.senha && (
                         <p>{errors.senha.message}</p>
                     )}
-                    <button className={styles.botao}>Entrar</button>
+                    <button className={styles.botao} type='submit'>Entrar</button>
                 </form>
                 <div className={styles.container_cadastro}>
                     <p> Não tem uma conta?</p> <Link to='cadastro'> Cadastre-se! </Link>
