@@ -13,6 +13,10 @@ export const FormLogin = () => {
         navigation.navigate('rotasTab')
     }
 
+    function abrirCadastro(){
+        navigation.navigate('cadastro')
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.titulo}> Login </Text>
@@ -43,7 +47,7 @@ export const FormLogin = () => {
                 </TouchableOpacity>
             </View>
 
-            <Text style={styles.text_cadastro}> Não tem uma conta? Cadastre-se </Text>
+            <Text style={styles.text_cadastro}> Não tem uma conta? <Text onPress={abrirCadastro}>Cadastre-se </Text></Text>
         </View>
     )
 }

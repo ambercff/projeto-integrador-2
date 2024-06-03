@@ -70,13 +70,7 @@ export const Formulario = ({adicionar}: FormularioProps) => {
                 <TouchableOpacity 
                 style={styles.botao} 
                 onPress={() => adicionar(nome, email, telefone, usuario, senha)}> 
-                <Text>
-                    <Feather 
-                        name="user-plus" 
-                        size={24} 
-                        color='#dee2e6' 
-                    />  
-                </Text>
+                    <Text style={styles.texto_botao}>Cadastrar</Text>
                 </TouchableOpacity>
             </View>
         </View>
