@@ -1,6 +1,5 @@
 import { Text, View, StyleSheet } from "react-native";
 import { Cabecalho } from "../components/Cabecalho";
-import { Botao } from "../components/Botao";
 
 export const Inicial = () =>{
     return(

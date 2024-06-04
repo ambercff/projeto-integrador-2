@@ -3,9 +3,13 @@ import { Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import styles from './styles/styleMap.jsx';
+import {useNavigation} from '@react-navigation/native'
 
 
 export default function Geo() {
+    const navigation = useNavigation()
+
+    const[sensorProximo, setSensorProximo] = useState(null);
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     
@@ -79,8 +83,17 @@ export default function Geo() {
                     setDistance1(distanceToFixedPoint1);
                     setDistance2(distanceToFixedPoint2);
                     if (distanceToFixedPoint1 <= distanceToFixedPoint2) {
+                        const sensor = fixedPoints[0]
+                        setSensorProximo(sensor)
+                        console.log(`Latitude: ${sensor.latitude}`)
+                        console.log(`Longitude: ${sensor.longitude}`)
+                        
                         setTemp(fixedPoints[0]['temp'])
                     } else {
+                        const sensor = fixedPoints[0]
+                        setSensorProximo(fixedPoints[1])
+                        console.log(`Latitude: ${sensor.latitude}`)
+                        console.log(`Longitude: ${sensor.longitude}`)
                         setTemp(fixedPoints[1]['temp'])
                     }
 
@@ -131,7 +144,6 @@ export default function Geo() {
                 <View style={styles.cx}><Text style={styles.cxTxt}>Distância até o ponto fixo 2: </Text>{distance1 !== null && <Text style={styles.cxTxt}>{distance1.toFixed(2)} metros</Text>}</View>
                 <View style={styles.cx}><Text style={styles.cxTxt}>Temperatura:</Text><Text style={styles.cxTxt}>{temp}ºC</Text></View>
             </View>
-            <Text> Details </Text>
         </View>
     );
 }
