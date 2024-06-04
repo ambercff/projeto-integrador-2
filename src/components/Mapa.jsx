@@ -1,27 +1,35 @@
-import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-
-function AjusteDeBounds({ pontos }) {
-    const map = useMap();
-
-    useEffect(() => {
-        if (map && pontos.length > 0) {
-            const bounds = L.latLngBounds(pontos.map(ponto => [ponto.latitude, ponto.longitude]));
-            map.fitBounds(bounds);
-        }
-    }, [map, pontos]);
-
-    return null;
-}
-
+ 
 export default function Mapa({ pontos }) {
+    const [mapaInicializado, setMapaInicializado] = useState(false);
+ 
+    useEffect(() => {
+        // Marcar o mapa como inicializado assim que os pontos estiverem carregados
+        if (pontos.length > 0) {
+            setMapaInicializado(true);
+        }
+    }, [pontos]);
+ 
+    // Calcular o centro das localizações
+    const centro = calcularCentro(pontos);
+   
+    // Definir o nível de zoom adequado com base na escala dos pontos
+    const zoomLevel = calcularZoomLevel(pontos);
+ 
     return (
         <MapContainer
             style={{ height: '500px', width: '100%' }}
-            center={[0, 0]}
-            zoom={2}
+            center={centro}
+            zoom={zoomLevel}
+            whenCreated={(map) => {
+                // Ajustar o nível de zoom para um nível mais detalhado
+                if (mapaInicializado) {
+                    map.setView(centro, zoomLevel);
+                }
+            }}
         >
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -37,7 +45,41 @@ export default function Mapa({ pontos }) {
                     </Popup>
                 </Marker>
             ))}
-            <AjusteDeBounds pontos={pontos} />
         </MapContainer>
     );
 }
+ 
+// Função para calcular o centro dos pontos
+function calcularCentro(pontos) {
+    const somaLatitudes = pontos.reduce((acc, ponto) => acc + ponto.latitude, 0);
+    const somaLongitudes = pontos.reduce((acc, ponto) => acc + ponto.longitude, 0);
+    const centroLat = somaLatitudes / pontos.length;
+    const centroLng = somaLongitudes / pontos.length;
+    return [centroLat, centroLng];
+}
+ 
+// Função para calcular o nível de zoom com base na escala dos pontos
+function calcularZoomLevel(pontos) {
+    const latitudes = pontos.map(ponto => ponto.latitude);
+    const longitudes = pontos.map(ponto => ponto.longitude);
+    const maxLat = Math.max(...latitudes);
+    const minLat = Math.min(...latitudes);
+    const maxLng = Math.max(...longitudes);
+    const minLng = Math.min(...longitudes);
+ 
+    // Calcular a distância entre os pontos mais distantes (em graus)
+    const distanciaLat = maxLat - minLat;
+    const distanciaLng = maxLng - minLng;
+ 
+    // Converter a distância para metros
+    const distanciaMetros = Math.sqrt(
+        Math.pow(distanciaLat * 111000, 2) + Math.pow(distanciaLng * 111000, 2)
+    );
+ 
+    // Ajustar o nível de zoom com base na distância em metros
+    // Aqui estou usando um fator de escala arbitrário para ajustar o nível de zoom
+    const fatorEscala = 0.1; // Ajuste conforme necessário
+    const zoomLevel = 18 - Math.log2(distanciaMetros) * fatorEscala;
+    return zoomLevel;
+}
+ 
