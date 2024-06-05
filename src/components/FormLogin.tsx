@@ -1,17 +1,40 @@
 import { useState } from "react"
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
+import axios from "axios"
+import { useAuth } from "./AuthContext"
 
 export const FormLogin = () => {
 
     const [user, setUser] = useState('')
     const [senha, setSenha] = useState('')
+    const { setToken } = useAuth();
 
     const navigation = useNavigation()
 
-    function abrirInicial() {
-        navigation.navigate('rotasTab')
-    }
+    const fazerLogin = async () => {
+        
+        try {
+            const response = await axios.post(
+                'http://10.0.2.2:8000/api/token/',
+                {
+                    username: user,
+                    password: senha
+                },
+                
+            );
+            const token = response.data.access;
+            console.log('Login bem-sucedido:', token);
+            setToken(token); // Atualiza o token no contexto
+            navigation.navigate('rotasTab');
+        } catch (error) {
+            console.error('Erro de login:', error);
+        }
+    };
+
+    // function abrirInicial() {
+    //     navigation.navigate('rotasTab')
+    // }
 
     function abrirCadastro(){
         navigation.navigate('cadastro')
@@ -42,7 +65,7 @@ export const FormLogin = () => {
             <View>
                 <TouchableOpacity 
                 style={styles.botao} 
-                onPress={abrirInicial}> 
+                onPress={fazerLogin}> 
                     <Text style={styles.texto_botao}> Login </Text>
                 </TouchableOpacity>
             </View>

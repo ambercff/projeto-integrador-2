@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Modal, Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import styles from './styles/styleMap.jsx';
-import {useNavigation} from '@react-navigation/native'
-
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../components/AuthContext';
+import axios from 'axios';
 
 export default function Geo() {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
-    const[sensorProximo, setSensorProximo] = useState(null);
+    const [sensorProximo, setSensorProximo] = useState(null);
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
-    
-    const [la, setLa] = useState(null)
-    const [lo, setLo] = useState(null)
-
+    const [la, setLa] = useState(null);
+    const [lo, setLo] = useState(null);
     const [distance1, setDistance1] = useState(null); // Distância até o ponto fixo 1
     const [distance2, setDistance2] = useState(null); // Distância até o ponto fixo 2
-    const [temp, setTemp] = useState(null)
-    const [x, setX] = useState(null)
+    const [temp, setTemp] = useState(null);
+    const [x, setX] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
 
+    const [sensores, setSensores] = useState(null);
+    const {token} = useAuth();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const initialRegion = {
         latitude: -22.9140639,
@@ -45,6 +49,7 @@ export default function Geo() {
         return d;
     };
 
+ 
     const fixedPoints = [
         {
             id: 1,
@@ -59,6 +64,18 @@ export default function Geo() {
     ];
 
     useEffect(() => {
+        async function fetchSensores(){
+            try {
+                const response = await axios.get("http://127.0.0.1:8000/api/sensores/");
+                setSensores(response.data)
+                console.log(`Response: ${response.data}`)
+                setLoading(false)
+            } catch(e){
+                setError(e)
+                setLoading(false)
+            }
+        }
+        fetchSensores();
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
@@ -74,8 +91,8 @@ export default function Geo() {
                 },
                 (newLocation) => {
                     setLocation(newLocation.coords);
-                    setLa(newLocation.coords.latitude)
-                    setLo(newLocation.coords.longitude)
+                    setLa(newLocation.coords.latitude);
+                    setLo(newLocation.coords.longitude);
 
                     // Calcular a distância entre a localização atual e os pontos fixos
                     const distanceToFixedPoint1 = haversine(la, lo, fixedPoints[0]['latitude'], fixedPoints[0]['longitude']);
@@ -83,22 +100,17 @@ export default function Geo() {
                     setDistance1(distanceToFixedPoint1);
                     setDistance2(distanceToFixedPoint2);
                     if (distanceToFixedPoint1 <= distanceToFixedPoint2) {
-                        const sensor = fixedPoints[0]
-                        setSensorProximo(sensor)
-                        console.log(`Latitude: ${sensor.latitude}`)
-                        console.log(`Longitude: ${sensor.longitude}`)
-                        
-                        setTemp(fixedPoints[0]['temp'])
+                        const sensor = fixedPoints[1];
+                        setSensorProximo(sensor);
+                        // console.log(`Latitude: ${sensor.latitude}`);
+                        // console.log(`Longitude: ${sensor.longitude}`);
                     } else {
-                        const sensor = fixedPoints[0]
-                        setSensorProximo(fixedPoints[1])
-                        console.log(`Latitude: ${sensor.latitude}`)
-                        console.log(`Longitude: ${sensor.longitude}`)
-                        setTemp(fixedPoints[1]['temp'])
+                        const sensor = fixedPoints[0];
+                        setSensorProximo(sensor);
+                        // console.log(`Latitude: ${sensor.latitude}`);
+                        // console.log(`Longitude: ${sensor.longitude}`);
                     }
-
                 }
-
             );
 
             return () => {
@@ -112,7 +124,6 @@ export default function Geo() {
         text = errorMsg;
     } else if (location) {
         text = `Latitude: ${location.latitude}, Longitude: ${location.longitude}`;
-
     }
 
     return (
@@ -143,8 +154,35 @@ export default function Geo() {
                 <View style={styles.cx}><Text style={styles.cxTxt}>Distância até o ponto fixo 1: </Text>{distance1 !== null && <Text style={styles.cxTxt}>{distance1.toFixed(1)} metros</Text>}</View>
                 <View style={styles.cx}><Text style={styles.cxTxt}>Distância até o ponto fixo 2: </Text>{distance1 !== null && <Text style={styles.cxTxt}>{distance1.toFixed(2)} metros</Text>}</View>
                 <View style={styles.cx}><Text style={styles.cxTxt}>Temperatura:</Text><Text style={styles.cxTxt}>{temp}ºC</Text></View>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>Details</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.modalContainer}>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                    }}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Detalhes Adicionais</Text>
+                            <TouchableOpacity
+                                style={styles.openButton}
+                                onPress={() => {
+                                    setModalVisible(!modalVisible);
+                                }}
+                            >
+                                <Text style={styles.textStyle}>Close Modal</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         </View>
     );
 }
-

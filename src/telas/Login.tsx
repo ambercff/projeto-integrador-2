@@ -7,8 +7,6 @@ import {useNavigation} from '@react-navigation/native'
 
 export const Login = () => {
 
-    const [usuario, setUsuario] = useState('')
-    const [senha, setSenha] = useState('')
 
     const navigation = useNavigation()
 

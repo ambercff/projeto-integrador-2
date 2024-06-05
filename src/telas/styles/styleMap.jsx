@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     btn: {
       width: '100%',
       height: 80,
-      // backgroundColor:"#ff0",
       alignItems: 'center',
       justifyContent: 'center'
     },
@@ -30,11 +29,9 @@ const styles = StyleSheet.create({
       color: 'white'
     },
     cxs: {
-      // backgroundColor: '#f00',
       width: '80%'
     },
     cx: {
-      // backgroundColor: '#ff0',
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginTop: 5,
@@ -45,7 +42,43 @@ const styles = StyleSheet.create({
     },
     cxTxt: {
       fontSize: 12,
-    }
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: 'white',
+      borderRadius: 20,
+      padding: 35,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    openButton: {
+      backgroundColor: '#F194FF',
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+    },
+    textStyle: {
+      color: 'white',
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: 'center',
+    },
   });
   
-  export default styles
+  export default styles;
