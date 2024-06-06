@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Modal, Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -21,10 +21,24 @@ export default function Geo() {
     const [x, setX] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [sensores, setSensores] = useState(null);
+    const [sensores, setSensores] = useState<Sensor[]>([]);
     const {token} = useAuth();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+
+    interface Sensor {
+        id: number;
+        tipo: string;
+        mac_address: string | null;
+        latitude: number;
+        longitude: number;
+        localizacao: string;
+        responsavel: string;
+        unidade_medida: string;
+        status_operacional: boolean;
+        observacao: string;
+      }
 
     const initialRegion = {
         latitude: -22.9140639,
@@ -32,6 +46,21 @@ export default function Geo() {
         latitudeDelta: 0.001,
         longitudeDelta: 0.001,
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response1 = await axios.get<Sensor>('http://10.0.2.2:8000/api/sensores/1');
+                const response2 = await axios.get<Sensor>('http://10.0.2.2:8000/api/sensores/2');
+                setSensores([response1.data, response2.data]);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        fetchData();
+        console.log(sensores)
+    }, [sensores]);
 
     const haversine = (lat1, lon1, lat2, lon2) => {
         const toRad = (value) => (value * Math.PI) / 180;
@@ -48,76 +77,73 @@ export default function Geo() {
 
         return d;
     };
-
  
-    const fixedPoints = [
-        {
-            id: 1,
-            latitude: -22.9140639, // Exemplo de coordenada 1
-            longitude: -47.068065, // Exemplo de coordenada 1
-        },
-        {
-            id: 2,
-            latitude: -22.9141804, // Exemplo de coordenada 2
-            longitude: -47.0683294, // Exemplo de coordenada 2
-        }
-    ];
+    // const fixedPoints = [
+    //     {
+    //         id: 1,
+    //         latitude: -22.9140639, // Exemplo de coordenada 1
+    //         longitude: -47.068065, // Exemplo de coordenada 1
+    //     },
+    //     {
+    //         id: 2,
+    //         latitude: -22.9141804, // Exemplo de coordenada 2
+    //         longitude: -47.0683294, // Exemplo de coordenada 2
+    //     }
+    // ];
+
+    const fixedPoints = useMemo(() => {
+        return sensores.map(sensor => ({
+            id: sensor.id,
+            latitude: sensor.latitude,
+            longitude: sensor.longitude
+        }));
+    }, [sensores]);
 
     useEffect(() => {
-        async function fetchSensores(){
+        const fetchData = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/sensores/");
-                setSensores(response.data)
-                console.log(`Response: ${response.data}`)
-                setLoading(false)
-            } catch(e){
-                setError(e)
-                setLoading(false)
-            }
-        }
-        fetchSensores();
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
-            }
-
-            const locationSubscription = await Location.watchPositionAsync(
-                {
-                    accuracy: Location.Accuracy.High,
-                    timeInterval: 1000,
-                    distanceInterval: 1,
-                },
-                (newLocation) => {
-                    setLocation(newLocation.coords);
-                    setLa(newLocation.coords.latitude);
-                    setLo(newLocation.coords.longitude);
-
-                    // Calcular a distância entre a localização atual e os pontos fixos
-                    const distanceToFixedPoint1 = haversine(la, lo, fixedPoints[0]['latitude'], fixedPoints[0]['longitude']);
-                    const distanceToFixedPoint2 = haversine(la, lo, fixedPoints[1]['latitude'], fixedPoints[1]['longitude']);
-                    setDistance1(distanceToFixedPoint1);
-                    setDistance2(distanceToFixedPoint2);
-                    if (distanceToFixedPoint1 <= distanceToFixedPoint2) {
-                        const sensor = fixedPoints[1];
-                        setSensorProximo(sensor);
-                        // console.log(`Latitude: ${sensor.latitude}`);
-                        // console.log(`Longitude: ${sensor.longitude}`);
-                    } else {
-                        const sensor = fixedPoints[0];
-                        setSensorProximo(sensor);
-                        // console.log(`Latitude: ${sensor.latitude}`);
-                        // console.log(`Longitude: ${sensor.longitude}`);
-                    }
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== 'granted') {
+                    setErrorMsg('Permission to access location was denied');
+                    return;
                 }
-            );
-
-            return () => {
-                locationSubscription.remove();
-            };
-        })();
-    }, []);
+    
+                const locationSubscription = await Location.watchPositionAsync(
+                    {
+                        accuracy: Location.Accuracy.High,
+                        timeInterval: 1000,
+                        distanceInterval: 1,
+                    },
+                    (newLocation) => {
+                        setLocation(newLocation.coords);
+                        setLa(newLocation.coords.latitude);
+                        setLo(newLocation.coords.longitude);
+    
+                        const distanceToFixedPoint1 = haversine(la, lo, fixedPoints[0]['latitude'], fixedPoints[0]['longitude']);
+                        const distanceToFixedPoint2 = haversine(la, lo, fixedPoints[1]['latitude'], fixedPoints[1]['longitude']);
+                        setDistance1(distanceToFixedPoint1);
+                        setDistance2(distanceToFixedPoint2);
+                        if (distanceToFixedPoint1 <= distanceToFixedPoint2) {
+                            const sensor = fixedPoints[1];
+                            setSensorProximo(sensor);
+                        } else {
+                            const sensor = fixedPoints[0];
+                            setSensorProximo(sensor);
+                        }
+                    }
+                );
+    
+                return () => {
+                    locationSubscription.remove();
+                };
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        fetchData();
+    }, [sensores, la, lo]);
+    
 
     let text = 'Waiting...';
     if (errorMsg) {
