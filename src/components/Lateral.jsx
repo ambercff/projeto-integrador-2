@@ -35,6 +35,12 @@ export function Lateral () {
                     to='/inicial/localizacao'
                 >Mapa
                 </Link>
+                <Link 
+                    className={styles.botao}
+                    to='filtro'
+                >
+                    Filtro
+                </Link>
 
             </section>
         </aside>

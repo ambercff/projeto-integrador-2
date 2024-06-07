@@ -38,7 +38,7 @@ export function Sensor() {
 
     return (
         <div className={styles.container}>
-            <h1>Lista de Sensores</h1>
+            <div className={styles.text}><h1>Lista de Sensores</h1></div>
             <table className={styles.table}>
                 <thead>
                     <tr>

@@ -14,6 +14,10 @@ export function Filtro() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const [submitted, setSubmitted] = useState(false);
+
+    let text = "";
+
     const handleChange = (e) => {
         const { name, type, checked, value } = e.target;
         setFilters({
@@ -26,6 +30,7 @@ export function Filtro() {
         e.preventDefault();
         setLoading(true);
         setError(null);
+        setSubmitted(true);
 
         try {
             const token = localStorage.getItem('access_token');
@@ -42,6 +47,7 @@ export function Filtro() {
         } finally {
             setLoading(false);
         }
+
     };
 
     return (
@@ -72,6 +78,7 @@ export function Filtro() {
                     {sensors.map(sensor => (
                         <li key={sensor.id}>{sensor.tipo} - {sensor.localizacao} - {sensor.responsavel}</li>
                     ))}
+                    {submitted && sensors.length === 0 && <p className="erro">Não existe nenhum sensor com essa característica!</p>}
                 </ul>
             </div>
         </div>
