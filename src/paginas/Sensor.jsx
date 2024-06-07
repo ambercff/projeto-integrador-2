@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './css/Sensor.module.css';
 import { Link } from 'react-router-dom'; 
+import { Pencil } from '@phosphor-icons/react'
 
 export function Sensor() {
     const [sensores, setSensores] = useState([]);
@@ -39,32 +40,34 @@ export function Sensor() {
     return (
         <div className={styles.container}>
             <div className={styles.text}><h1>Lista de Sensores</h1></div>
-            <table className={styles.table}>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tipo</th>
-                        <th>Localização</th>
-                        <th>Responsável</th>
-                        <th>Longitude</th>
-                        <th>Latitude</th>
-                        <th>Alterar Dados</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {sensores.map(sensor => (
-                        <tr key={sensor.id}>
-                            <td>{sensor.id}</td>
-                            <td>{sensor.tipo}</td>
-                            <td>{sensor.localizacao}</td>
-                            <td>{sensor.responsavel}</td>
-                            <td>{sensor.longitude}</td>
-                            <td>{sensor.latitude}</td>
-                            <td> <Link to={`alterar-sensor/${sensor.id}`}><button> Alterar </button></Link></td>
+            <div className={styles.containerTabela}>
+                <table className={styles.table}>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tipo</th>
+                            <th>Localização</th>
+                            <th>Responsável</th>
+                            <th>Longitude</th>
+                            <th>Latitude</th>
+                            <th>Alterar Dados</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {sensores.map(sensor => (
+                            <tr key={sensor.id}>
+                                <td>{sensor.id}</td>
+                                <td>{sensor.tipo}</td>
+                                <td>{sensor.localizacao}</td>
+                                <td>{sensor.responsavel}</td>
+                                <td>{sensor.longitude}</td>
+                                <td>{sensor.latitude}</td>
+                                <td> <Link to={`alterar-sensor/${sensor.id}`}><Pencil size={30} className={styles.pencil}/></Link></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

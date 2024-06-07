@@ -59,7 +59,7 @@ export function Login() {
                     <button className={styles.botao} type='submit'>Entrar</button>
                 </form>
                 <div className={styles.container_cadastro}>
-                    <p> Não tem uma conta?</p> <Link to='cadastro'> Cadastre-se! </Link>
+                    <p> Não tem uma conta?</p> <Link to='cadastro' style={{color:'var(--preto)', fontWeight: 'bold'}}> Cadastre-se! </Link>
                 </div>
             </div>
         </div>

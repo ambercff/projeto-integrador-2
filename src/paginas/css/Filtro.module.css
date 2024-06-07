@@ -1,13 +1,13 @@
-.conteiner {
+.container {
     display: flex;
-    height: auto;
-    padding:40px;  
-    background-color: var(--cinza-claro);
     flex-direction: column;
-    border-radius: 10px;
-    margin-top: 30px;
-  
-    
+    border-radius: 10px; 
+}
+
+.containerForm{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
@@ -17,16 +17,70 @@ h1 {
 }
 
 .botao {
-    background-color: var(--roxo-escuro);
-    color: var(--cinza-claro);
+    background-color: black;
+    color: white;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 3%;
+    border: none;
+    width: 200px;
 }
 .formulario {
     display: flex;
-    flex-direction: column;
-    background-color: var(--cinza-claro);
     padding: 30px;
     border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.formulario label {
+    margin-right: .5rem;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.formulario input{
+    padding: 8px;
+    border: 1px solid var(--preto);
+    border-radius: 8px;
+    height: 30px;
+    margin-right: 2rem;
+}
+
+.containerTabela{
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    padding: 10px;
+    font-size: 16px;
+    border-collapse: collapse; /* Colapsa as bordas da tabela */
+    width: 60%;
+    align-items: center;
+    flex-direction: column;
+}
+
+th, td {
+    border: 1px solid black; /* Define as bordas para células */
+    padding: 8px; /* Adiciona padding às células */
+    text-align: center; 
+}
+
+
+tbody tr:nth-child(even) {
+    background-color: var(--cinza-claro); /* Alterna a cor de fundo para linhas pares */
+}
+
+.notFound{
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+    margin-top: 2rem;
+    font-weight: bold;
+    color: red;
+    gap: 1rem;
+}
+
+.checkBox{
+    width: 18px;
 }

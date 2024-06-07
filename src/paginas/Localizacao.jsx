@@ -44,9 +44,9 @@ export function Localizacao() {
     }
 
     return (
-        <div>
-            <h1>Localização dos Sensores</h1>
-            <Mapa pontos={pontos} />
+        <div style={{display: 'flex', flexDirection: 'column', alignItems:'center'}}>
+            <h1 style={{marginBottom: '2rem'}}>Localização dos Sensores</h1>
+            <Mapa pontos={pontos}/>
         </div>
     );
 }
