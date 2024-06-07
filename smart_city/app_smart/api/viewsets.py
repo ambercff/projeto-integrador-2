@@ -13,7 +13,7 @@ from django.db.models import Q
 class CreateUserAPIViewSet(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = []
     
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
