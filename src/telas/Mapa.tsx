@@ -52,18 +52,29 @@ export default function Geo() {
                         id: response1.data.id,
                         latitude: response1.data.latitude,
                         longitude: response1.data.longitude,
+                        tipo: response1.data.tipo,
+                        localizacao: response1.data.localizacao,
+                        responsavel: response1.data.responsavel,
+                        unidade_medida: response1.data.unidade_medida,
+                        status_operacional: response1.data.status_operacional,
+                        observacao: response1.data.observacao
                     },
                     {
                         id: response2.data.id,
                         latitude: response2.data.latitude,
                         longitude: response2.data.longitude,
+                        tipo: response2.data.tipo,
+                        localizacao: response2.data.localizacao,
+                        responsavel: response2.data.responsavel,
+                        unidade_medida: response2.data.unidade_medida,
+                        status_operacional: response2.data.status_operacional,
+                        observacao: response2.data.observacao
                     }
                 ]);
             } catch (error) {
                 console.error(error);
             }
         };
-        console.log(sensores)
         fetchData();
     }, []);
 
@@ -105,14 +116,14 @@ export default function Geo() {
             setDistance1(distanceToFixedPoint1);
             setDistance2(distanceToFixedPoint2);
             if (distanceToFixedPoint1 <= distanceToFixedPoint2) {
-                const sensor = fixedPoints[1];
+                const sensor = fixedPoints[0];
                 setSensorProximo(sensor);
             } else {
-                const sensor = fixedPoints[0];
+                const sensor = fixedPoints[1];
                 setSensorProximo(sensor);
             }
         }
-    }, [sensores, location]);
+    }, [sensores, location, sensorProximo]);
 
     const haversine = (lat1, lon1, lat2, lon2) => {
         const toRad = (value) => (value * Math.PI) / 180;
@@ -137,14 +148,13 @@ export default function Geo() {
         text = `Latitude: ${location.latitude}, Longitude: ${location.longitude}`;
     }
 
-    console.log(fixedPoints)
-
     return (
         <View style={styles.container}>
             <MapView
                 style={styles.map}
                 initialRegion={initialRegion}
             >
+                <Marker coordinate={{ latitude: -22.915, longitude: -47.0678 }} />
                 {fixedPoints.map(point => (
                     <Marker
                         key={point.id}
@@ -180,19 +190,29 @@ export default function Geo() {
                         setModalVisible(!modalVisible);
                     }}
                 >
-                    <View style={styles.modalContainer}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Detalhes Adicionais</Text>
-                            <TouchableOpacity
-                                style={styles.openButton}
-                                onPress={() => {
-                                    setModalVisible(!modalVisible);
-                                }}
-                            >
-                                <Text style={styles.textStyle}>Close Modal</Text>
-                            </TouchableOpacity>
+                    {sensorProximo && (
+                        <View style={styles.modalContainer}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>ID: {sensorProximo['id']}</Text>
+                                <Text style={styles.modalText}>TIPO: {sensorProximo['tipo']}</Text>
+                                <Text style={styles.modalText}>LATITUDE: {sensorProximo['latitude']}</Text>
+                                <Text style={styles.modalText}>LONGITUDE: {sensorProximo['longitude']}</Text>
+                                <Text style={styles.modalText}>LOCALIZAÇÃO: {sensorProximo['localizacao']}</Text>
+                                <Text style={styles.modalText}>RESPONSAVEL: {sensorProximo['responsavel']}</Text>
+                                <Text style={styles.modalText}>UNIDADE: {sensorProximo['unidade_medida']}</Text>
+                                <Text style={styles.modalText}>STATUS: {sensorProximo['status_operacional']}</Text>
+                                <Text style={styles.modalText}>OBS: {sensorProximo['observacao']}</Text>
+                                <TouchableOpacity
+                                    style={styles.openButton}
+                                    onPress={() => {
+                                        setModalVisible(!modalVisible);
+                                    }}
+                                >
+                                    <Text style={styles.textStyle}>Close Modal</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
+                    )}
                 </Modal>
             </View>
         </View>

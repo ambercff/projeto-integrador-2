@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       borderRadius: 20,
       padding: 35,
-      alignItems: 'center',
+      alignItems: 'flex-start',
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
       elevation: 5,
     },
     openButton: {
-      backgroundColor: '#F194FF',
+      backgroundColor: '#787878',
       borderRadius: 20,
       padding: 10,
       elevation: 2,
@@ -74,8 +74,10 @@ const styles = StyleSheet.create({
       color: 'white',
       fontWeight: 'bold',
       textAlign: 'center',
+  
     },
     modalText: {
+      
       marginBottom: 15,
       textAlign: 'center',
     },

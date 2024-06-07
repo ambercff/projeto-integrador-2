@@ -1,81 +1,64 @@
-import { useState } from "react"
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native"
-import { Feather } from '@expo/vector-icons'
+import React, { useState } from 'react';
+import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
-interface FormularioProps {
-    adicionar: (
-        nome: string,
-        email: string,
-        telefone: string,
-        usuario: string,
-        senha: string
-    ) => void
-}
+export const Formulario: React.FC = () => {
 
-export const Formulario = ({adicionar}: FormularioProps) => {
+    const [usuario, setUsuario] = useState('');
+    const [senha, setSenha] = useState('');
 
-    const [nome, setNome] = useState('')
-    const [email, setEmail] = useState('')
-    const [telefone, setTelefone] = useState('')
-    const [usuario, setUsuario] = useState('')
-    const [senha, setSenha] = useState('')
+    const navigation = useNavigation();
+
+    //useContext
+ // Usando o contexto de autenticação
+
+    const fazerCadastro = async () => {
+        try {
+            // Fazer a requisição de cadastro
+            const response = await axios.post(
+                'http://10.0.2.2:8000/api/create_user',
+                {
+                    username: usuario,
+                    password: senha
+                }
+            );
+
+            navigation.navigate('login');
+
+        } catch (error) {
+            // Se houver um erro no cadastro, você pode exibir uma mensagem de erro
+            console.error('Erro de cadastro:', error);
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}> Cadastro </Text>
             <View>
-                <TextInput 
+                <TextInput
                     style={styles.campo}
-                    placeholderTextColor="#000"
+                    placeholder="Usuário"
+                    placeholderTextColor="#01233c"
                     keyboardType="default"
-                    placeholder="Nome"
-                    onChangeText={setNome}
-                    value={nome}
-                />
-                <TextInput 
-                    style={styles.campo}
-                    placeholderTextColor="#000"
-                    keyboardType="email-address"
-                    placeholder="Email"
-                    onChangeText={setEmail}
-                    value={email}
-                />
-                <TextInput 
-                    style={styles.campo}
-                    placeholder='Telefone'
-                    placeholderTextColor="#000"
-                    keyboardType='phone-pad'                
-                    onChangeText={setTelefone}
-                    value={telefone}
-                />
-                <TextInput 
-                    style={styles.campo}
-                    placeholder='Usuário'
-                    placeholderTextColor="#000"
-                    keyboardType='default'                
                     onChangeText={setUsuario}
                     value={usuario}
-                />    
-                <TextInput 
+                />
+                <TextInput
                     style={styles.campo}
-                    placeholderTextColor="#000"
-                    keyboardType="visible-password"
                     placeholder="Senha"
+                    placeholderTextColor="#01233c"
+                    secureTextEntry={true}
                     onChangeText={setSenha}
                     value={senha}
                 />
             </View>
-
-            <View>
-                <TouchableOpacity 
-                style={styles.botao} 
-                onPress={() => adicionar(nome, email, telefone, usuario, senha)}> 
-                    <Text style={styles.texto_botao}>Cadastrar</Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.botao} onPress={fazerCadastro}>
+                <Feather name="user-plus" size={24} color="#dee2e6" />
+            </TouchableOpacity>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
 

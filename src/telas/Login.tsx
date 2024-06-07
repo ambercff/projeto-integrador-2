@@ -1,12 +1,9 @@
 import { View, StyleSheet, Text, Image } from "react-native"
-import { useState,useEffect  } from "react"
 import { FormLogin } from "../components/FormLogin"
-import { Cabecalho } from "../components/Cabecalho"
 import 'react-native-get-random-values'
 import {useNavigation} from '@react-navigation/native'
 
 export const Login = () => {
-
 
     const navigation = useNavigation()
 
