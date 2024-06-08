@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import styles from './css/CadastroSensores.module.css';
+import styles from './css/AlterarSensor.module.css';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -67,51 +67,56 @@ export function AlterarSensor() {
     };
 
     return (
-        <div className={styles.conteiner}>
-            <form className={styles.formulario} onSubmit={handleSubmit(onSubmit)}>
-                <label>Tipo</label>
-                <select {...register('tipo')} className={styles.campo}>
-                    <option value="">Selecione o tipo de sensor</option>
-                    <option value="Temperatura">Temperatura</option>
-                    <option value="Contador">Contador</option>
-                    <option value="Luminosidade">Luminosidade</option>
-                    <option value="Umidade">Umidade</option>
-                </select>
-                {errors.tipo && <p className={styles.mensagem}>{errors.tipo.message}</p>}
+        <div className={styles.generalContainer}>
+            <div className={styles.container}>
+                <form className={styles.formulario} onSubmit={handleSubmit(onSubmit)}>
+                    <p className={styles.titulo}>Alterar Sensor</p>
+                    <label>Tipo</label>
+                    <select {...register('tipo')} className={styles.campo}>
+                        <option value="">Selecione o tipo de sensor</option>
+                        <option value="Temperatura">Temperatura</option>
+                        <option value="Contador">Contador</option>
+                        <option value="Luminosidade">Luminosidade</option>
+                        <option value="Umidade">Umidade</option>
+                    </select>
+                    {errors.tipo && <p className={styles.mensagem}>{errors.tipo.message}</p>}
 
-                <label>Mac Address</label>
-                <input {...register('mac_address')} className={styles.campo} />
-                {errors.mac_address && <p className={styles.mensagem}>{errors.mac_address.message}</p>}
+                    <label>Mac Address</label>
+                    <input {...register('mac_address')} className={styles.campo} />
+                    {errors.mac_address && <p className={styles.mensagem}>{errors.mac_address.message}</p>}
 
-                <label>Latitude</label>
-                <input {...register('latitude')} className={styles.campo} />
-                {errors.latitude && <p className={styles.mensagem}>{errors.latitude.message}</p>}
+                    <label>Latitude</label>
+                    <input {...register('latitude')} className={styles.campo} />
+                    {errors.latitude && <p className={styles.mensagem}>{errors.latitude.message}</p>}
 
-                <label>Longitude</label>
-                <input {...register('longitude')} className={styles.campo} />
-                {errors.longitude && <p className={styles.mensagem}>{errors.longitude.message}</p>}
+                    <label>Longitude</label>
+                    <input {...register('longitude')} className={styles.campo} />
+                    {errors.longitude && <p className={styles.mensagem}>{errors.longitude.message}</p>}
 
-                <label>Localização</label>
-                <input {...register('localizacao')} className={styles.campo} />
-                {errors.localizacao && <p className={styles.mensagem}>{errors.localizacao.message}</p>}
+                    <label>Localização</label>
+                    <input {...register('localizacao')} className={styles.campo} />
+                    {errors.localizacao && <p className={styles.mensagem}>{errors.localizacao.message}</p>}
 
-                <label>Responsável</label>
-                <input {...register('responsavel')} className={styles.campo} />
-                {errors.responsavel && <p className={styles.mensagem}>{errors.responsavel.message}</p>}
+                    <label>Responsável</label>
+                    <input {...register('responsavel')} className={styles.campo} />
+                    {errors.responsavel && <p className={styles.mensagem}>{errors.responsavel.message}</p>}
 
-                <label>Unidade Medida</label>
-                <input {...register('unidade_medida')} className={styles.campo} />
-                {errors.unidade_medida && <p className={styles.mensagem}>{errors.unidade_medida.message}</p>}
+                    <label>Unidade Medida</label>
+                    <input {...register('unidade_medida')} className={styles.campo} />
+                    {errors.unidade_medida && <p className={styles.mensagem}>{errors.unidade_medida.message}</p>}
 
-                <label>Status Operacional</label>
-                <input {...register('status_operacional')} type="checkbox" />
-                
-                <label>Observação</label>
-                <textarea {...register('observacao')} className={styles.campo}></textarea>
-                {errors.observacao && <p className={styles.mensagem}>{errors.observacao.message}</p>}
+                    <div style={{display:'flex', alignItems:'center', marginBottom:'.5rem', gap:'.8rem'}}>
+                        <label>Status Operacional</label>
+                        <input {...register('status_operacional')} type="checkbox" />
+                    </div>
+                    
+                    <label>Observação</label>
+                    <textarea {...register('observacao')} className={styles.campo}></textarea>
+                    {errors.observacao && <p className={styles.mensagem}>{errors.observacao.message}</p>}
 
-                <button type="submit" className={styles.botao}>Salvar Alterações</button>
-            </form>
+                    <button type="submit" className={styles.botao}>Salvar Alterações</button>
+                </form>
+            </div>
         </div>
     );
 }

@@ -1,42 +1,61 @@
-.conteiner {
+.generalContainer {
     display: flex;
-    height: auto;  
+    justify-content: center;
     align-items: center;
 }
 
+.container {
+    /* display: flex; */
+    /* height: 450px; */
+    /* padding: 350px; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    flex-direction: column;
+    border-radius: 25px;
+    
+}
+
 .titulo {
-    color:var(--roxo-claro);
+    margin-bottom:20px;
+    color:#ffffff;
     font-size:24px;
 }
 
 .formulario {
+    background-color: #787878;
     display: flex;
     flex-direction: column;
-    background-color: var(--cinza-claro);
     padding: 30px;
     border-radius: 10px;
     font-size: 16px;
     align-items: center;
+    gap:0.5rem;
 }
 
 .campo {
     margin-bottom: 10px;
     padding: 5px;
-    border-radius: 6px;
+    border-radius: 10px;
+    border: none;
     font-size: 16px;
 }
 
 .botao {
-    background-color: var(--roxo-escuro);
-    color: var(--cinza-claro);
-    padding: 10px;
+    background-color:#343536;
+    color: #fff;
+    border:none;
+    padding: 15px;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+
 }
-.mensagem {
-    font-size: .9rem;
-    font-weight: 600;
-    margin-top: -6px;
-    margin-bottom: 1rem;  
-    color: red; 
+.botao:hover{
+    background-color:#1c1c1c
+}
+
+.campoCheckbox{
+    color:#fff;
+    padding:10px;
 }
